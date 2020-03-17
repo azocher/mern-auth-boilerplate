@@ -4,7 +4,9 @@ import { Link } from 'react-router-dom'
 const Nav = props => {
   const handleLogout = e => {
     e.preventDefault()
-    localStorage.removeItem('userToken');
+    // Remove the token from localstorage
+    localStorage.removeItem('mernToken')
+    // Update the state of the App
     props.updateUser();
   }
 
@@ -32,6 +34,7 @@ const Nav = props => {
       </span>
     )
   }
+
 
   return (
     <nav>

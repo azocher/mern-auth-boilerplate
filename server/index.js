@@ -26,8 +26,7 @@ app.use('/auth', expressJwt({
   ]
 }), require('./controllers/auth'))
 
-// example secret call for auth:
-// app.use('/dogs', expressJwt({ secret: process.env.JWT_SECRET }), require('./controllers/dogs'))
+app.use('/dogs', expressJwt({ secret: process.env.JWT_SECRET }), require('./controllers/dogs'))
 
 app.get('*', (req, res) => {
   res.status(404).send({ message: 'Not Found' })

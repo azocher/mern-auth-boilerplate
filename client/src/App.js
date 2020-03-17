@@ -1,6 +1,5 @@
 // Import packages
-// Import packages
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom'
 import jwtDecode from 'jwt-decode'
 
@@ -15,40 +14,34 @@ const App = props => {
   // Declare state variables
   let [user, setUser] = useState(null)
 
-  // Define an onload action to look for token
   useEffect(() => {
     decodeToken()
   }, [])
 
-  // Helper functions
   const updateUser = newToken => {
     if (newToken) {
-      // Store Token in localStorage
-      localStorage.setItem('mernToken', newToken)
-      decodeToken(newToken)
-    }
-    else {
-      setUser(null)
+      localStorage.setItem('mernToken', newToken);
+      decodeToken(newToken);
+    } else {
+      setUser(null);
     }
   }
 
   const decodeToken = existingToken => {
-    let token = existingToken || localStorage.getItem('mernToken')
+    let token = existingToken || localStorage.getItem('mernToken');
 
     if (token) {
-      let decoded = jwtDecode(token)
+      let decoded = jwtDecode(token);
 
-      // If token is expired or not decodable, user is not logged in
+      // check for expired token or non valid or user is not logged in at all
       if (!decoded || Date.now() >= decoded.exp * 1000) {
-        console.log('expired!')
-        setUser(null)
+        console.log("Token expired!!");
+        setUser(null);
+      } else {
+        setUser(decoded);
       }
-      else {
-        setUser(decoded)
-      }
-    }
-    else {
-      setUser(null)
+    } else {
+      setUser(null);
     }
   }
 
@@ -57,7 +50,9 @@ const App = props => {
       <div className="App">
         <Nav updateUser={updateUser} user={user} />
         <Header />
-        <Content updateUser={updateUser} user={user} />
+        <main>
+          <Content updateUser={updateUser} user={user} />
+        </main>
         <Footer />
       </div>
     </Router>

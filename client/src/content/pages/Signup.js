@@ -1,5 +1,5 @@
 // Packages
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
 
 const Signup = props => {
@@ -11,14 +11,13 @@ const Signup = props => {
   let [password, setPassword] = useState('')
   let [profileUrl, setProfileUrl] = useState('')
 
-  // Effect hook
   useEffect(() => {
-    setMessage('')
+    setMessage("")
   }, [email, firstname, lastname, password, profileUrl])
-
+    
+  
   const handleSubmit = e => {
     e.preventDefault()
-    // Send the user sign up data to the server
     fetch(`${process.env.REACT_APP_SERVER_URL}/auth/signup`, {
       method: 'POST',
       body: JSON.stringify({
@@ -34,19 +33,15 @@ const Signup = props => {
     })
     .then(response => {
       if (!response.ok) {
-        console.log(response)
-        setMessage(`${response.status}: ${response.statusText}`)
-        return
+        console.log(response);
+        setMessage(`${response.status}: ${response.statusText}`);
+        return;
       }
 
+      // if user signuped succesfully
       response.json().then(result => {
-        // Update App with user info
-        props.updateUser(result.token)
+        props.updateUser(result.token);
       })
-    })
-    .catch(err => {
-      console.log(err)
-      setMessage(`${err.toString()}`)
     })
   }
 

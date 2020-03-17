@@ -1,5 +1,5 @@
 // Packages
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
 
 const Login = props => {
@@ -8,14 +8,13 @@ const Login = props => {
   let [message, setMessage] = useState('')
   let [password, setPassword] = useState('')
 
-
   useEffect(() => {
     setMessage('')
   }, [email, password])
 
   // Event handlers
   const handleSubmit = e => {
-    e.preventDefault()
+    e.preventDefault();
     fetch(`${process.env.REACT_APP_SERVER_URL}/auth/login`, {
       method: 'POST',
       body: JSON.stringify({
@@ -28,19 +27,17 @@ const Login = props => {
     })
     .then(response => {
       if (!response.ok) {
-        setMessage(`${response.status}: ${response.statusText}`)
-        return
+        setMessage(`${response.status}: ${response.statusText}`);
+        return;
       }
 
       response.json().then(result => {
-        // console.log(result)
-        // Update App with user info
-        props.updateUser(result.token)
+        props.updateUser(result.token);
       })
     })
     .catch(err => {
-      console.log(err)
-      setMessage(`${err.toString()}`)
+      console.log(err);
+      setMessage(`${err.toString()}`);
     })
   }
 
